@@ -1,7 +1,7 @@
 import pygame
 
 class Particle:
-    def __init__(self, x, y, vx, vy, dvx, dvy, angle, dangle, speed, lifespan, size, red, green, blue, alpha, shape, gradient=False):
+    def __init__(self, x: float, y: float, vx: float, vy: float, dvx: float, dvy: float, angle: float, dangle: float, speed: float, lifespan: int, size: int, red: int, green: int, blue: int, alpha: int, shape: str, gradient: bool = False) -> None:
         self.x = x
         self.y = y
         self.vx = vx
@@ -20,11 +20,11 @@ class Particle:
         self.shape = shape
         self.gradient = gradient
 
-    def apply_force(self, fx, fy):
+    def apply_force(self, fx: float, fy: float) -> None:
         self.vx += fx
         self.vy += fy
 
-    def update(self, x, y):
+    def update(self, x: float, y: float) -> None:
         self.apply_force(self.dvx, self.dvy)
         self.x += self.vx * self.speed
         self.x += x
@@ -35,7 +35,7 @@ class Particle:
             self.alpha -= self.alpha // (1 / 2 * self.lifespan)
             self.lifespan -= 2
 
-    def draw(self, screen):
+    def draw(self, screen: pygame.Surface) -> None:
         screen_width, screen_height = screen.get_size()
         if 0 <= self.x <= screen_width and 0 <= self.y <= screen_height:
             surface = pygame.Surface((self.size * 2, self.size * 2), pygame.SRCALPHA)
@@ -69,7 +69,7 @@ class Particle:
             new_rect = rotated_surface.get_rect(center=(self.x, self.y))
             screen.blit(rotated_surface, new_rect.topleft)
 
-    def draw_star(self, surface, color, size, i):
+    def draw_star(self, surface: pygame.Surface, color: tuple, size: int, i: int) -> None:
         points = [
             (size, size - i),
             (size + i * 0.2, size - i * 0.2),
