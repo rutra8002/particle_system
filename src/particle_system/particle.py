@@ -24,16 +24,18 @@ class Particle:
         self.vx += fx
         self.vy += fy
 
-    def update(self, x: float, y: float) -> None:
-        self.apply_force(self.dvx, self.dvy)
-        self.x += self.vx * self.speed
-        self.x += x
-        self.y += self.vy * self.speed
-        self.y += y
-        self.angle += self.dangle
+    def update(self, x: float, y: float, delta_time: float = None) -> None:
+        if delta_time is None:
+            delta_time = 1.0
+        self.apply_force(self.dvx * delta_time, self.dvy * delta_time)
+        self.x += self.vx * self.speed * delta_time
+        self.x += x * delta_time
+        self.y += self.vy * self.speed * delta_time
+        self.y += y * delta_time
+        self.angle += self.dangle * delta_time
         if self.alpha > 0 and self.lifespan > 0:
-            self.alpha -= self.alpha // (1 / 2 * self.lifespan)
-            self.lifespan -= 2
+            self.alpha -= self.alpha // (1 / 60 * self.lifespan) * delta_time
+            self.lifespan -= 60 * delta_time
 
     def draw(self, screen: pygame.Surface) -> None:
         screen_width, screen_height = screen.get_size()

@@ -12,10 +12,10 @@ class ParticleSystem:
         for particle in self.particles:
             particle.apply_force(fx, fy)
 
-    def update(self) -> None:
+    def update(self, delta_time: float = None) -> None:
         particle_x, particle_y = 0, 0
         for particle in self.particles:
-            particle.update(particle_x, particle_y)
+            particle.update(particle_x, particle_y, delta_time)
         self.particles = [particle for particle in self.particles if particle.lifespan > 0]
 
     def draw(self, screen: pygame.Surface) -> None:
