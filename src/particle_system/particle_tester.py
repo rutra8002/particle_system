@@ -3,7 +3,7 @@ import pygame_gui
 import random
 from src.particle_system.particle_system import ParticleSystem
 
-class ParticleGUI:
+class ParticleTester:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((1280, 720))
@@ -57,5 +57,5 @@ class ParticleGUI:
         pygame.quit()
 
 if __name__ == "__main__":
-    gui = ParticleGUI()
+    gui = ParticleTester()
     gui.run()
