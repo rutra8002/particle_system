@@ -7,6 +7,7 @@ setup(
     package_dir={'': 'src'},
     install_requires=[
         'pygame-ce',
+        'pygame-gui'
     ],
     author='rutra',
     author_email='ruterszcz@gmail.com',
