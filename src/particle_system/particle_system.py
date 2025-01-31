@@ -13,6 +13,12 @@ class ParticleSystem:
     def add_generator(self, generator: ParticleGenerator) -> None:
         self.generators.append(generator)
 
+    def get_generator_by_name(self, name: str) -> ParticleGenerator:
+        for generator in self.generators:
+            if generator.name == name:
+                return generator
+        return None
+
     def apply_force_to_all(self, fx: float, fy: float) -> None:
         for particle in self.particles:
             particle.apply_force(fx, fy)
