@@ -1,5 +1,8 @@
 import pygame
-import pygame_gui
+try:
+    import pygame_gui
+except:
+    raise ImportError("Could not import pygame_gui")
 import random
 from src.particle_system.particle_system import ParticleSystem
 
