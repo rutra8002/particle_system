@@ -22,8 +22,17 @@ class ParticleGenerator:
         self.gradient = gradient
         self.rate = rate
         self.time_since_last_particle = 0.0
+        self.active = False
+
+    def start(self) -> None:
+        self.active = True
+
+    def stop(self) -> None:
+        self.active = False
 
     def update(self, delta_time: float) -> None:
+        if not self.active:
+            return
         self.time_since_last_particle += delta_time
         while self.time_since_last_particle >= 1.0 / self.rate:
             self.particle_system.add_particle(self.x, self.y, self.vx, self.vy, self.dvx, self.dvy, self.angle, self.dangle, self.speed, self.lifespan, self.size, self.red, self.green, self.blue, self.alpha, self.shape, self.gradient)
