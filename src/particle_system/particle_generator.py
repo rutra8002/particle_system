@@ -1,9 +1,8 @@
 import pygame
 
 class ParticleGenerator:
-    def __init__(self, particle_system, name: str, x: float, y: float, vx: float, vy: float, dvx: float, dvy: float, angle: float, dangle: float, speed: float, lifespan: int, size: int, red: int, green: int, blue: int, alpha: int, shape: str, gradient: bool, rate: float) -> None:
+    def __init__(self, particle_system, x: float, y: float, vx: float, vy: float, dvx: float, dvy: float, angle: float, dangle: float, speed: float, lifespan: int, size: int, red: int, green: int, blue: int, alpha: int, shape: str, gradient: bool, rate: float) -> None:
         self.particle_system = particle_system
-        self.name = name
         self.x = x
         self.y = y
         self.vx = vx
