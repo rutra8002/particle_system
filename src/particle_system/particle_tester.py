@@ -39,7 +39,7 @@ class ParticleTester:
 
     def run(self):
         while self.running:
-            time_delta = self.clock.tick(60) / 1000.0
+            delta_time = self.clock.tick(120) / 1000.0
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
@@ -48,11 +48,11 @@ class ParticleTester:
                         self.add_particle()
                 self.manager.process_events(event)
 
-            self.manager.update(time_delta)
+            self.manager.update(delta_time)
             self.screen.fill((30, 30, 30))
             self.manager.draw_ui(self.screen)
 
-            delta_time = self.clock.tick(120) / 1000.0
+
             self.particle_system.update(delta_time=delta_time)
             self.particle_system.draw(self.screen)
             pygame.display.flip()
