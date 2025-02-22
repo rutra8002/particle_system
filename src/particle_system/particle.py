@@ -68,7 +68,7 @@ class Particle:
 
             # Rotate the surface based on the angle
             rotated_surface = pygame.transform.rotate(surface, self.angle)
-            new_rect = rotated_surface.get_rect(center=(self.x, self.y))
+            new_rect = rotated_surface.get_rect(center=(int(self.x), int(self.y)))
             screen.blit(rotated_surface, new_rect.topleft)
 
     def draw_star(self, surface: pygame.Surface, color: tuple, size: int, i: int) -> None:
