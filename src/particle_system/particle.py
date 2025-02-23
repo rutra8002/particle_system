@@ -28,10 +28,8 @@ class Particle:
         if delta_time is None:
             delta_time = 1.0
         self.apply_force(self.dvx * delta_time, self.dvy * delta_time)
-        self.x += self.vx * self.speed * delta_time
-        self.x += x * delta_time
-        self.y += self.vy * self.speed * delta_time
-        self.y += y * delta_time
+        self.x += (self.vx * self.speed + x) * delta_time
+        self.y += (self.vy * self.speed + y) * delta_time
         self.angle += self.dangle * delta_time
         if self.alpha > 0 and self.lifespan > 0:
             self.alpha -= self.alpha // (1 / 60 * self.lifespan) * delta_time
@@ -41,35 +39,27 @@ class Particle:
         screen_width, screen_height = screen.get_size()
         if 0 <= self.x <= screen_width and 0 <= self.y <= screen_height:
             surface = pygame.Surface((self.size * 2, self.size * 2), pygame.SRCALPHA)
+            color = (self.red, self.green, self.blue, self.alpha)
             if self.gradient:
                 for i in range(self.size, 0, -1):
-                    color = (self.red, self.green, self.blue, self.alpha - int(self.alpha * (i / self.size)))
-                    if self.shape == 'circle':
-                        pygame.draw.circle(surface, color, (self.size, self.size), i)
-                    elif self.shape == 'square':
-                        pygame.draw.rect(surface, color, pygame.Rect(self.size - i, self.size - i, i * 2, i * 2))
-                    elif self.shape == 'triangle':
-                        pygame.draw.polygon(surface, color,
-                                            [(self.size, self.size - i), (self.size - i, self.size + i),
-                                             (self.size + i, self.size + i)])
-                    elif self.shape == 'star':
-                        self.draw_star(surface, color, self.size, i)
+                    gradient_color = (self.red, self.green, self.blue, self.alpha - int(self.alpha * (i / self.size)))
+                    self.draw_shape(surface, gradient_color, i)
             else:
-                color = (self.red, self.green, self.blue, self.alpha)
-                if self.shape == 'circle':
-                    pygame.draw.circle(surface, color, (self.size, self.size), self.size)
-                elif self.shape == 'square':
-                    pygame.draw.rect(surface, color, pygame.Rect(0, 0, self.size * 2, self.size * 2))
-                elif self.shape == 'triangle':
-                    pygame.draw.polygon(surface, color,
-                                        [(self.size, 0), (0, self.size * 2), (self.size * 2, self.size * 2)])
-                elif self.shape == 'star':
-                    self.draw_star(surface, color, self.size, self.size)
+                self.draw_shape(surface, color, self.size)
 
-            # Rotate the surface based on the angle
             rotated_surface = pygame.transform.rotate(surface, self.angle)
             new_rect = rotated_surface.get_rect(center=(int(self.x), int(self.y)))
             screen.blit(rotated_surface, new_rect.topleft)
+
+    def draw_shape(self, surface: pygame.Surface, color: tuple, size: int) -> None:
+        if self.shape == 'circle':
+            pygame.draw.circle(surface, color, (self.size, self.size), size)
+        elif self.shape == 'square':
+            pygame.draw.rect(surface, color, pygame.Rect(self.size - size, self.size - size, size * 2, size * 2))
+        elif self.shape == 'triangle':
+            pygame.draw.polygon(surface, color, [(self.size, self.size - size), (self.size - size, self.size + size), (self.size + size, self.size + size)])
+        elif self.shape == 'star':
+            self.draw_star(surface, color, self.size, size)
 
     def draw_star(self, surface: pygame.Surface, color: tuple, size: int, i: int) -> None:
         points = [
