@@ -19,6 +19,14 @@ class Particle:
         self.alpha = alpha
         self.shape = shape
         self.gradient = gradient
+        self.mask_color = (255, 255, 255, 255)
+        surface = pygame.Surface((self.size * 2, self.size * 2), pygame.SRCALPHA)
+        surface.fill(self.mask_color)
+        self.mask = pygame.mask.from_surface(surface)
+        self.rect = pygame.Rect(self.x-self.size, self.y-self.size, self.size * 2, self.size * 2)
+
+    def update_rect(self) -> None:
+        self.rect = pygame.Rect(self.x-self.size, self.y-self.size, self.size * 2, self.size * 2)
 
     def apply_force(self, fx: float, fy: float) -> None:
         self.vx += fx
@@ -34,8 +42,12 @@ class Particle:
         if self.alpha > 0 and self.lifespan > 0:
             self.alpha -= self.alpha // (1 / 60 * self.lifespan) * delta_time
             self.lifespan -= 60 * delta_time
+        self.update_rect()
 
     def draw(self, screen: pygame.Surface) -> None:
+        # #draw mask
+        #screen.blit(self.mask.to_surface(), self.rect.topleft)
+
         screen_width, screen_height = screen.get_size()
         if 0 <= self.x <= screen_width and 0 <= self.y <= screen_height:
             surface = pygame.Surface((self.size * 2, self.size * 2), pygame.SRCALPHA)
@@ -75,3 +87,7 @@ class Particle:
             (size - i * 0.2, size - i * 0.2)
         ]
         pygame.draw.polygon(surface, color, points)
+
+    def check_collision(self, other_particle) -> bool:
+        offset = (int(other_particle.x - self.x), int(other_particle.y - self.y))
+        return self.mask.overlap(other_particle.mask, offset) is not None

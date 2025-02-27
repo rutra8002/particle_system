@@ -38,6 +38,9 @@ def test_particle_system_window():
 
         temp+=1
 
+        #print fps
+        print(clock.get_fps())
+
     pygame.quit()
 
 if __name__ == "__main__":
