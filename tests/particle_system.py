@@ -13,8 +13,9 @@ def test_particle_system_window():
 
     particle_system = ParticleSystem()
 
-    particle_generator = ParticleGenerator(particle_system, 400, 300, random.uniform(-1, 1), 0, 0, 0.1, 0, 2, 6000, 100, 10, 255, 0, 0, 255, 'circle', False, 6)
+    particle_generator = ParticleGenerator(particle_system, 400, 300, 0, 0, 0, 0, 0, 0, 10, 100,  100, 255, 0, 0, 255, 'circle', False, 60)
     particle_system.add_generator(particle_generator)
+    particle_generator.start()
     running = True
     temp = 0
     while running:
