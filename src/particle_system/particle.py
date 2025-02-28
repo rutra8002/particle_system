@@ -88,6 +88,6 @@ class Particle:
         ]
         pygame.draw.polygon(surface, color, points)
 
-    def check_collision(self, other_particle) -> bool:
-        offset = (int(other_particle.x - self.x), int(other_particle.y - self.y))
-        return self.mask.overlap(other_particle.mask, offset) is not None
+    def check_collision(self, other) -> bool:
+        offset = (int(other.x - self.x), int(other.y - self.y))
+        return self.mask.overlap(other.mask, offset) is not None
